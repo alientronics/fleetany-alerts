@@ -35,10 +35,7 @@ class AlertsTest extends TestCase
 
     public function testAlertsPostSuccess()
     {
-        $company = factory('App\Company')->create();
-
-        $this->actingAs($company)
-            ->post('/api/v1/alert', ['api_token' => env('APP_TOKEN'), 
+        $this->post('/api/v1/alert', ['api_token' => env('APP_TOKEN'), 
                 'company_id' => 1, 
                 'tiresensor_id' => 1,
                 'vehicle_id' => 1
