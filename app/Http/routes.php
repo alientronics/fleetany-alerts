@@ -20,5 +20,4 @@ $app->group(['prefix' => 'api/v1','namespace' => 'App\Http\Controllers', 'middle
     /* basic crud for keys */
     $app->get('alerts/{part_id}', 'AlertsController@get');
     $app->post('alert', 'AlertsController@create');
-
 });

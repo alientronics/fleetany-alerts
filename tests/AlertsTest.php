@@ -5,9 +5,15 @@ use App\Entities\Alerts;
 
 class AlertsTest extends TestCase
 {
-    public function testTireSensorPostFail()
+    public function testAlertsGetAllSuccess()
     {
-        $this->post('/api/v1/alerts', ['company_id' => 1, 
+        $this->get('/api/v1/alerts/1', ['api_token' => env('APP_TOKEN')]);
+        $this->assertEquals($this->response->status(), 200);
+    }
+    
+    public function testAlertsPostFail()
+    {
+        $this->post('/api/v1/alert', ['company_id' => 1, 
             'tiresensor_id' => 1,
             'vehicle_id' => 1
         ]);
@@ -16,12 +22,12 @@ class AlertsTest extends TestCase
 
     }
 
-    public function testTireSensorPostSuccess()
+    public function testAlertsPostSuccess()
     {
         $company = factory('App\Company')->create();
 
         $this->actingAs($company)
-            ->post('/api/v1/alerts', ['api_token' => env('APP_TOKEN'), 
+            ->post('/api/v1/alert', ['api_token' => env('APP_TOKEN'), 
                 'company_id' => 1, 
                 'tiresensor_id' => 1,
                 'vehicle_id' => 1

@@ -45,21 +45,21 @@ class AlertsRepository
             $tireSensor->temperature > $company->limit_temperature) { // 1,5 is the sensor accuracy
     
                 $sendMail = false;
-                if (empty($company->alert_date_time) || $company->alert_date_time == '0000-00-00 00:00:00') {
+            if (empty($company->alert_date_time) || $company->alert_date_time == '0000-00-00 00:00:00') {
+                $sendMail = true;
+            } else {
+                $diffHours = sprintf('%2d', (strtotime(date("Y-m-d H:i:s")) -
+                strtotime($company->alert_date_time)) / 3600);
+    
+                if ($diffHours >= 12) {
                     $sendMail = true;
-                } else {
-                    $diffHours = sprintf('%2d', (strtotime(date("Y-m-d H:i:s")) -
-                        strtotime($company->alert_date_time)) / 3600);
-    
-                    if ($diffHours >= 12) {
-                        $sendMail = true;
-                    }
                 }
+            }
     
-                if ($sendMail && $this->sendAlertMail($company, $vehicle_id, $tireSensor, $ideal_pressure)) {
-                    $company->alert_date_time = date("Y-m-d H:i:s");
-                    $company->save();
-                }
+            if ($sendMail && $this->sendAlertMail($company, $vehicle_id, $tireSensor, $ideal_pressure)) {
+                $company->alert_date_time = date("Y-m-d H:i:s");
+                $company->save();
+            }
         }
     }
     
