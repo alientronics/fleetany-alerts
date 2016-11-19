@@ -24,3 +24,10 @@ $factory->define(App\Entities\User::class, function ($faker) {
         'api_token' => $faker->name,
     ];
 });
+
+$factory->define(App\Entities\Alerts::class, function ($faker) {
+    return [
+        'alert_type_id' => 1,
+        'part_id' => 1,
+    ];
+});

@@ -32,7 +32,7 @@ class AlertsRepository
     
     private function checkAlerts($company_id, $tiresensor_id, $vehicle_id)
     {
-        $tireSensor = TireSensor::where('id', $tiresensor_id)->first();
+        $tireSensor = TireSensor::find($tiresensor_id);
         $company = Company::where('id', $company_id)->first();
     
         $company->delta_pressure = $company->delta_pressure / 100;

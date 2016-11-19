@@ -5,8 +5,19 @@ use App\Entities\Alerts;
 
 class AlertsTest extends TestCase
 {
+    public function testPingApi()
+    {
+        $this->get('/');
+    
+        $this->assertEquals(
+            $this->response->getContent(), $this->app->version()
+            );
+    }
+    
     public function testAlertsGetAllSuccess()
     {
+        $alert = factory('App\Entities\Alerts')->create();
+        
         $this->get('/api/v1/alerts/1', ['api_token' => env('APP_TOKEN')]);
         $this->assertEquals($this->response->status(), 200);
     }
