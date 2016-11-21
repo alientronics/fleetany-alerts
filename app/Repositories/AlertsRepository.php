@@ -25,9 +25,13 @@ class AlertsRepository
     public function create(Request $request)
     {
         $data = $request->all();
-        $this->checkAlerts($data['company_id'], $data['tiresensor_id'], $data['vehicle_id']);
+        return $this->checkAlerts($data['company_id'], $data['tiresensor_id'], $data['vehicle_id']);
+    }
     
-        return response()->json('created');
+    public function calculateIdealPressure($tireSensor, $company)
+    {
+        return (($tireSensor->temperature - 20) / 5.5556) * 0.02 *
+                        $company->ideal_pressure + $company->ideal_pressure;
     }
     
     private function checkAlerts($company_id, $tiresensor_id, $vehicle_id)
@@ -37,8 +41,7 @@ class AlertsRepository
     
         $company->delta_pressure = $company->delta_pressure / 100;
     
-        $ideal_pressure = (($tireSensor->temperature - 20) / 5.5556) * 0.02 *
-        $company->ideal_pressure + $company->ideal_pressure;
+        $ideal_pressure = $this->calculateIdealPressure($tireSensor, $company);
     
         if (((((1 - $company->delta_pressure) * $ideal_pressure) - 1.5) > $tireSensor->pressure) ||
             ($tireSensor->pressure > (((1 + $company->delta_pressure) * $ideal_pressure) + 1.5)) ||
@@ -60,7 +63,10 @@ class AlertsRepository
                 $company->alert_date_time = date("Y-m-d H:i:s");
                 $company->save();
             }
+            
+            return $this->getAlertType($company, $tireSensor, $ideal_pressure);
         }
+        return false;
     }
     
     private function sendAlertMail($company, $vehicle_id, $tireSensor, $ideal_pressure)
@@ -119,19 +125,23 @@ class AlertsRepository
         return true;
     }
     
-    private function getAlertType($company, $tireSensor, $ideal_pressure)
+    public function getAlertType($company, $tireSensor, $ideal_pressure)
     {
         $alertType = [];
         if ((((1 - $company->delta_pressure) * $ideal_pressure) - 1.5) > $tireSensor->pressure) {
             $alertType['type'] = Lang::get('mails.Pressure');
             $alertType['description'] = Lang::get('mails.LowPressure');
+            $alertType['id'] = 'LowPressure';
+        } elseif ($tireSensor->pressure > (((1 + $company->delta_pressure) * $ideal_pressure) + 1.5)) {
+            $alertType['type'] = Lang::get('mails.Pressure');
+            $alertType['description'] = Lang::get('mails.HighPressure');
+            $alertType['id'] = 'HighPressure';
         } elseif ($tireSensor->temperature > $company->limit_temperature) {
             $alertType['type'] = Lang::get('mails.Temperature');
             $alertType['description'] = Lang::get('mails.HighTemperature');
-        } else {
-            $alertType['type'] = Lang::get('mails.Pressure');
-            $alertType['description'] = Lang::get('mails.HighPressure');
+            $alertType['id'] = 'HighTemperature';
         }
+        
         return $alertType;
     }
 }
