@@ -17,8 +17,11 @@ class CreateAlertsTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->integer('alert_type_id')->unsigned()->index();
-            $table->integer('part_id')->unsigned()->index();
+            $table->char('entity_key', 30);
+            $table->integer('entity_id')->unsigned();
             $table->string('destination', 255)->nullable();
+            $table->text('description', 65535)->nullable();
+			$table->boolean('status')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

@@ -14,27 +14,39 @@ class AlertsTypesTableSeeder extends Seeder
     {
         DB::table('alerts_types')->delete();
         AlertsTypes::forceCreate(
-                [  'name' => 'Low Pressure']
+                [  'name' => 'Low Pressure',
+                   'resource' => 'mail-alert'
+                ]
             );
         
         AlertsTypes::forceCreate(
-                [  'name' => 'High Pressure']
+                [  'name' => 'High Pressure',
+                   'resource' => 'mail-alert'
+                ]
             );
         
         AlertsTypes::forceCreate(
-                [  'name' => 'High Temperature']
+                [  'name' => 'High Temperature',
+                   'resource' => 'mail-alert'
+                ]
             );
         
         AlertsTypes::forceCreate(
-                [  'name' => 'Valve Leak']
+                [  'name' => 'Valve Leak',
+                   'resource' => 'mail-alert'
+                ]
             );
         
         AlertsTypes::forceCreate(
-                [  'name' => 'Stolen Tire/No Signal']
+                [  'name' => 'Stolen Tire/No Signal',
+                   'resource' => 'mail-alert'
+                ]
             );
         
         AlertsTypes::forceCreate(
-                [  'name' => 'Maintenance']
+                [  'name' => 'Maintenance',
+                   'resource' => 'mail-alert'
+                ]
             );
         
     }
