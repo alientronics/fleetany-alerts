@@ -1,48 +1,17 @@
 {
-    "name": "alientronics/fleetany-alerts",
-    "description": "An API for CRUD operations on Fleetany alerts",
+    "name": "alientronics/fleetany-api",
+    "description": "An API for CRUD operations on Fleetany Alerts service",
     "keywords": ["alientronics", "fleetany", "alerts"],
     "license": "AGPL-3.0",
     "type": "project",
-    "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "version": "dev-master",
-                "name": "alientronics/fleetany-web",
-                "source": {
-                    "url": "https://github.com/alientronics/fleetany-web.git",
-                    "type": "git",
-                    "reference": "master"
-                }
-            }
-        },
-        {
-            "type": "package",
-            "package": {
-                "version": "dev-master",
-                "name": "alientronics/laravel-acl",
-                "source": {
-                    "url": "https://github.com/alientronics/laravel-acl.git",
-                    "type": "git",
-                    "reference": "master"
-                }
-            }
-        }
-    ],
     "require": {
         "php": ">=5.5.9",
         "laravel/lumen-framework": "5.2.*",
         "vlucas/phpdotenv": "~2.2",
         "mlntn/lumen-artisan-serve": "~1",
-        "alientronics/fleetany-web": "dev-master",
-        "prettus/l5-repository": "dev-master",
-        "doctrine/dbal": "v2.4.2",
-        "alientronics/laravel-acl": "dev-master",
-        "prettus/laravel-validation": "1.1.*",
-        "caouecs/laravel4-lang": "~2.0",
+        "league/flysystem": "^1.0",
         "fzaninotto/faker": "~1.4",
-        "illuminate/mail": "5.*"
+		"nordsoftware/lumen-dynamodb": "^0.3"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0",
@@ -56,24 +25,12 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/"
-        },
-        "classmap": [
-            "vendor/alientronics/fleetany-web/app/Entities/",
-            "vendor/alientronics/fleetany-web/app/Repositories/",
-            "vendor/alientronics/laravel-acl/src/"
-        ]
+        }
     },
     "autoload-dev": {
         "classmap": [
             "tests/",
-            "database/",
-            "vendor/alientronics/fleetany-web/database/"
-        ]
-    },
-    "scripts": {
-        "post-install-cmd": [
-            "php -r \"copy('vendor/alientronics/fleetany-web/resources/lang/en/setup.php', 'resources/lang/en/setup.php');\"",
-            "php -r \"copy('vendor/alientronics/fleetany-web/resources/lang/pt-br/setup.php', 'resources/lang/pt-br/setup.php');\""
+            "database/"
         ]
     }
 }

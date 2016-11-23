@@ -18,7 +18,6 @@ $app->get('/', function () use ($app) {
 $app->group(['prefix' => 'api/v1','namespace' => 'App\Http\Controllers', 'middleware' => 'auth'], function ($app) {
 
     /* basic crud for keys */
-    $app->get('alerts/{part_id}', 'AlertsController@get');
+    $app->get('alerts/{entity_key}/{entity_id}', 'AlertsController@get');
     $app->post('alert', 'AlertsController@create');
-    $app->get('get-alert-type/{company_id}/{tiresensor_id}', 'AlertsController@getAlertType');
 });

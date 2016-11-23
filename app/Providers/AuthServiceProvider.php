@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Company;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -33,11 +32,8 @@ class AuthServiceProvider extends ServiceProvider
 
         Auth::viaRequest('api', function ($request) {
             if ($request->input('api_token') == env('APP_TOKEN', null)) {
-                return factory('App\Entities\User')->make();
+                return factory('App\User')->make();
             }
-            //if ($request->input('api_token')) {
-            //    return Company::where('api_token', $request->input('api_token'))->first();
-            //}
         });
     }
 }

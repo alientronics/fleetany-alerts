@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 
-class Company extends Model implements
+class User extends Model implements
     AuthenticatableContract,
     AuthorizableContract
 {
@@ -29,6 +29,6 @@ class Company extends Model implements
      * @var array
      */
     protected $hidden = [
-        'api_token', 'contact_id'
+        'api_token',
     ];
 }
