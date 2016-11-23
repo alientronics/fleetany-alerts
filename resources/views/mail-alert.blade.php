@@ -5,4 +5,4 @@
 {{\Illuminate\Support\Facades\Lang::get("mails.AlarmType")}}: {{$alarm->type}}<br/>
 {{\Illuminate\Support\Facades\Lang::get("mails.AlarmDescription")}}: {{$alarm->description}}<br/>
 {{\Illuminate\Support\Facades\Lang::get("mails.VehicleLocation")}}: <a href="http://maps.google.com/?q={{$alarm->vehicle_latitude}},{{$alarm->vehicle_longitude}}">Latitude: {{$alarm->vehicle_latitude}}, Longitude: {{$alarm->vehicle_longitude}}</a><br/>
-{{url('/')}}/vehicle/{{$alarm->vehicle_id}}
+<a href="{{env('MAIL_FLEETANYWEB_URL')}}/vehicle/{{$alarm->vehicle_id}}">{{env('MAIL_FLEETANYWEB_URL')}}/vehicle/{{$alarm->vehicle_id}}</a>
