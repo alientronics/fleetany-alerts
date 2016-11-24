@@ -8,10 +8,10 @@ use App\Repositories\AlertsRepository;
 
 class AlertsController extends Controller
 {
-    public function get($idPart)
+    public function get($entity_key, $entity_id)
     {
         $alertsRepository = new AlertsRepository();
-        return $alertsRepository->get($idPart);
+        return $alertsRepository->get($entity_key, $entity_id);
     }
   
     public function create(Request $request)
