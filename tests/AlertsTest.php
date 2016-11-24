@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests;
+
 use Laravel\Lumen\Testing\DatabaseTransactions;
 use App\Entities\Alerts;
 

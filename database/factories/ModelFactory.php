@@ -28,6 +28,7 @@ $factory->define(App\User::class, function ($faker) {
 $factory->define(App\Entities\Alerts::class, function ($faker) {
     return [
         'alert_type_id' => 1,
-        'part_id' => 1,
+        'entity_key' => 'tire',
+        'entity_id' => 1,
     ];
 });
