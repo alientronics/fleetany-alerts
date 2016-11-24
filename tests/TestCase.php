@@ -19,10 +19,10 @@ class TestCase extends Laravel\Lumen\Testing\TestCase
 
     public function get($uri, array $headers = [])
     {
-    	$params = "";
-    	foreach ($headers as $key => $value) {
-    		$params .= "$key=$value&";
-    	}
-    	return parent::get($uri.'?'.$params);
+        $params = "";
+        foreach ($headers as $key => $value) {
+            $params .= "$key=$value&";
+        }
+        return parent::get($uri.'?'.$params);
     }
 }

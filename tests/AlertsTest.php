@@ -10,8 +10,9 @@ class AlertsTest extends TestCase
         $this->get('/');
     
         $this->assertEquals(
-            $this->response->getContent(), $this->app->version()
-            );
+            $this->response->getContent(),
+            $this->app->version()
+        );
     }
     
     public function testAlertsGetAllSuccess()
@@ -24,19 +25,18 @@ class AlertsTest extends TestCase
     
     public function testAlertsPostFail()
     {
-        $this->post('/api/v1/alert', ['company_id' => 1, 
+        $this->post('/api/v1/alert', ['company_id' => 1,
             'tiresensor_id' => 1,
             'vehicle_id' => 1
         ]);
 
         $this->assertEquals($this->response->status(), 401);
-
     }
 
     public function testAlertsPostSuccess()
     {
-        $this->post('/api/v1/alert', ['api_token' => env('APP_TOKEN'), 
-                'company_id' => 1, 
+        $this->post('/api/v1/alert', ['api_token' => env('APP_TOKEN'),
+                'company_id' => 1,
                 'tiresensor_id' => 1,
                 'vehicle_id' => 1
             ])

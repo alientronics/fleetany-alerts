@@ -18,7 +18,7 @@ $factory->define(App\Company::class, function ($faker) {
     ];
 });
 
-$factory->define(App\Entities\User::class, function ($faker) {
+$factory->define(App\User::class, function ($faker) {
     return [
         'name' => $faker->name,
         'api_token' => $faker->name,

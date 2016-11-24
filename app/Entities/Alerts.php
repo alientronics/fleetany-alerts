@@ -17,6 +17,6 @@ class Alerts extends Model
      * @var array
      */
     protected $fillable = [
-        'alert_type_id', 'entity_key', 'entity_id', 'destination', 'description', 'status',
+        'alert_type_id', 'company_id', 'entity_key', 'entity_id', 'destination', 'description', 'status',
     ];
 }

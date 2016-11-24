@@ -3,7 +3,7 @@ namespace App\Repositories;
 
 use Illuminate\Http\Request;
 use App\Entities\Alerts;
-use Log;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Entities\AlertsTypes;
 
@@ -26,6 +26,7 @@ class AlertsRepository
             $emails = json_decode($data['emails']);
             
             $alert = [
+                'company_id' => $data['company_id'],
                 'alert_type_id' => $alertType->id,
                 'entity_key' => $data['entity_key'],
                 'entity_id' => $data['entity_id'],
@@ -34,7 +35,7 @@ class AlertsRepository
                 'status' => 1,
             ];
          
-            if ($this->sendMail($alert)) {
+            if ($this->sendMail($data['company_id'])) {
                 try {
                     Mail::send($alertType->resource, ['alarm' => $message], function ($m) use ($emails, $data) {
                         $m->from(env('MAIL_SENDER'), 'fleetany sender');
@@ -52,20 +53,24 @@ class AlertsRepository
         }
     }
     
-    private function sendMail($alert = null)
+    private function sendMail($company_id)
     {
-        return true;
-        
+        $lastAlert = Alerts::where('company_id', $company_id)
+                        ->orderBy('created_at', 'desc')
+                        ->first();
+      
         $sendMail = false;
-        if (empty($alert->created_at) || $alert->created_at == '0000-00-00 00:00:00') {
+        if (empty($lastAlert)) {
             $sendMail = true;
         } else {
             $diffHours = sprintf('%2d', (strtotime(date("Y-m-d H:i:s")) -
-                strtotime($alert->created_at)) / 3600);
+                strtotime($lastAlert->created_at)) / 3600);
         
             if ($diffHours >= 12) {
                 $sendMail = true;
             }
         }
+        
+        return $sendMail;
     }
 }

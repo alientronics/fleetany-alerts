@@ -16,6 +16,7 @@ class CreateAlertsTable extends Migration
         {
             $table->engine = 'InnoDB';
             $table->increments('id');
+			$table->integer('company_id');
             $table->integer('alert_type_id')->unsigned()->index();
             $table->char('entity_key', 30);
             $table->integer('entity_id')->unsigned();
