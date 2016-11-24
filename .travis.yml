@@ -11,7 +11,7 @@ services:
 
 addons:
   code_climate:
-    repo_token: 29bdd2d5a09282d8ef60265cdcf448dfc36d3177f2d065805bd03af4b5651b7b
+    repo_token: 47125ba513a290705531440e4c903e81a4bda53324c5b92e9b19408de5d48e21
 
 before_install:
   - composer self-update
