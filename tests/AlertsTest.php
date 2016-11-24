@@ -33,7 +33,7 @@ class AlertsTest extends TestCase
     {
         $alert = factory('App\Entities\Alerts')->create();
         
-        $this->get('/api/v1/alerts/tire/1', ['api_token' => env('APP_TOKEN')]);
+        $this->get('/api/v1/alerts/tire/1?api_token='.env('APP_TOKEN'));
         $this->assertEquals($this->response->status(), 200);
     }
     
