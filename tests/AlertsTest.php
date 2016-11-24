@@ -2,11 +2,23 @@
 
 namespace Tests;
 
+use Laravel\Lumen\Testing\TestCase;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 use App\Entities\Alerts;
 
 class AlertsTest extends TestCase
 {
+    use DatabaseTransactions;
+    /**
+     * Creates the application.
+     *
+     * @return \Laravel\Lumen\Application
+     */
+    public function createApplication()
+    {
+        return require __DIR__.'/../bootstrap/app.php';
+    }
+    
     public function testPingApi()
     {
         $this->get('/');
