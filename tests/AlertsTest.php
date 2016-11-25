@@ -90,4 +90,57 @@ class AlertsTest extends TestCase
             ])
             ->assertResponseStatus(200);
     }
+
+    public function testAlertsPostSuccessAfterHours()
+    {
+        $emails = [];
+        $names = [];
+        $emails[] = "admin@alientronics.com.br";
+        $emails[] = "teste@alientronics.com.br";
+        $names[] = "Administrator";
+        $names[] = "Nome Usuario Executive";
+        $subject_params = [];
+        
+        $this->post('/api/v1/alert', ['api_token' => env('APP_TOKEN'),
+                'emails' => json_encode($emails),
+                'company_id' => 1,
+                'names' => json_encode($names),
+                'subject' => 'Teste Assunto Email',
+                'subject_params' => json_encode($subject_params),
+                'message' => '{"vehicle_fleet":"123","vehicle_plate":null,'.
+                                '"vehicle_driver":"Company","tire_number":"0",'.
+                                '"type":"mails.Pressure","description":"mails.HighPressure",'.
+                                '"id":"High Pressure","vehicle_latitude":"51.1000000",'.
+                                '"vehicle_longitude":"30.0500000","vehicle_id":1}',
+                'entity_key' => 'tire',
+                'entity_id' => 11,
+            ])
+            ->assertResponseStatus(200);
+        
+        $lastAlert = Alerts::where('company_id', 1)
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+        $lastAlert->created_at = date('Y-m-d H:i:s', strtotime(
+            '-721 minute',
+            strtotime(date('Y-m-d H:i:s'))
+        ));
+        $lastAlert->save();
+        
+        $this->post('/api/v1/alert', ['api_token' => env('APP_TOKEN'),
+                'emails' => json_encode($emails),
+                'company_id' => 1,
+                'names' => json_encode($names),
+                'subject' => 'Teste Assunto Email',
+                'subject_params' => json_encode($subject_params),
+                'message' => '{"vehicle_fleet":"123","vehicle_plate":null,'.
+                                '"vehicle_driver":"Company","tire_number":"0",'.
+                                '"type":"mails.Pressure","description":"mails.HighPressure",'.
+                                '"id":"High Pressure","vehicle_latitude":"51.1000000",'.
+                                '"vehicle_longitude":"30.0500000","vehicle_id":1}',
+                'entity_key' => 'tire',
+                'entity_id' => 11,
+            ])
+            ->assertResponseStatus(200);
+    }
 }
