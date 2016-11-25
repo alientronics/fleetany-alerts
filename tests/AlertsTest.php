@@ -143,4 +143,26 @@ class AlertsTest extends TestCase
             ])
             ->assertResponseStatus(200);
     }
+
+    public function testHandlerException()
+    {
+        $emails = [];
+        $names = [];
+        $emails[] = "admin@alientronics.com.br";
+        $emails[] = "teste@alientronics.com.br";
+        $names[] = "Administrator";
+        $names[] = "Nome Usuario Executive";
+        $subject_params = [];
+        
+        $this->post('/api/v1/alert', ['api_token' => env('APP_TOKEN'),
+                'emails' => json_encode($emails),
+                'company_id' => 1,
+                'names' => json_encode($names),
+                'subject' => 'Teste Assunto Email',
+                'subject_params' => json_encode($subject_params),
+                'entity_key' => 'tire',
+                'entity_id' => 11,
+            ])
+            ->assertResponseStatus(200);
+    }
 }
