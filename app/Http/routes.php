@@ -18,6 +18,8 @@ $app->get('/', function () use ($app) {
 $app->group(['prefix' => 'api/v1','namespace' => 'App\Http\Controllers', 'middleware' => 'auth'], function ($app) {
 
     /* basic crud for keys */
+    $app->get('alerts/vehicle/{vehicle_id}/{company_id}', 'AlertsController@getVehicleAlerts');
+    $app->get('alerts/vehicle/{vehicle_id}/type/{alert_type}/{company_id}', 'AlertsController@getVehicleAlertTypeReport');
     $app->get('alerts/{entity_key}/{entity_id}', 'AlertsController@get');
     $app->post('alert', 'AlertsController@create');
 });

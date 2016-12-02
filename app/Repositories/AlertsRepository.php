@@ -16,6 +16,34 @@ class AlertsRepository
         return response()->json($alerts);
     }
     
+    public function getVehicleAlerts($vehicle_id, $company_id)
+    {
+        $alertsTypes = AlertsTypes::orderBy('id', 'asc')->get();
+
+        if(!empty($alertsTypes))
+        {
+            foreach($alertsTypes as $index => $alertType)
+            {
+                $alertsTypes[$index]['quantity'] = Alerts::where('alert_type_id', $alertType->id)
+                            ->where('description', 'like', '%vehicle_id":'.$vehicle_id.'%')
+                            ->where('company_id', $company_id)
+                            ->count();
+            }
+        } 
+        
+        return response()->json($alertsTypes);
+    }
+    
+    public function getVehicleAlertTypeReport($vehicle_id, $alert_type, $company_id)
+    {
+        $alerts = Alerts::where('alert_type_id', $alert_type)
+                            ->where('description', 'like', '%vehicle_id":'.$vehicle_id.'%')
+                            ->where('company_id', $company_id)
+                            ->get();
+
+        return response()->json($alerts);
+    }
+    
     public function create(Request $request)
     {
         try {
