@@ -20,16 +20,14 @@ class AlertsRepository
     {
         $alertsTypes = AlertsTypes::orderBy('id', 'asc')->get();
 
-        if(!empty($alertsTypes))
-        {
-            foreach($alertsTypes as $index => $alertType)
-            {
+        if (!empty($alertsTypes)) {
+            foreach ($alertsTypes as $index => $alertType) {
                 $alertsTypes[$index]['quantity'] = Alerts::where('alert_type_id', $alertType->id)
                             ->where('description', 'like', '%vehicle_id":'.$vehicle_id.'%')
                             ->where('company_id', $company_id)
                             ->count();
             }
-        } 
+        }
         
         return response()->json($alertsTypes);
     }
