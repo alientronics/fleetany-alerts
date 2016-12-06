@@ -14,16 +14,16 @@ class AlertsController extends Controller
         return $alertsRepository->get($entity_key, $entity_id);
     }
     
-    public function getVehicleAlerts($vehicle_id, $company_id)
+    public function getAlerts($entity_key, $entity_id, $company_id)
     {
         $alertsRepository = new AlertsRepository();
-        return $alertsRepository->getVehicleAlerts($vehicle_id, $company_id);
+        return $alertsRepository->getAlerts($entity_key, $entity_id, $company_id);
     }
     
-    public function getVehicleAlertTypeReport($vehicle_id, $alert_type, $company_id)
+    public function getAlertTypeReport($entity_key, $entity_id, $alert_type, $company_id)
     {
         $alertsRepository = new AlertsRepository();
-        return $alertsRepository->getVehicleAlertTypeReport($vehicle_id, $alert_type, $company_id);
+        return $alertsRepository->getAlertTypeReport($entity_key, $entity_id, $alert_type, $company_id);
     }
     
     public function create(Request $request)

@@ -16,7 +16,17 @@ class AlertsRepository
         return response()->json($alerts);
     }
     
-    public function getVehicleAlerts($vehicle_id, $company_id)
+    public function getAlerts($entity_key, $entity_id, $company_id)
+    {
+        switch ($entity_key) {
+            case "vehicle":
+                return $this->getVehicleAlerts($entity_id, $company_id);
+            case "tire":
+                return $this->getTireAlerts($entity_id, $company_id);
+        }
+    }
+    
+    private function getVehicleAlerts($vehicle_id, $company_id)
     {
         $alertsTypes = AlertsTypes::orderBy('id', 'asc')->get();
 
@@ -32,10 +42,48 @@ class AlertsRepository
         return response()->json($alertsTypes);
     }
     
-    public function getVehicleAlertTypeReport($vehicle_id, $alert_type, $company_id)
+    private function getTireAlerts($entity_id, $company_id)
+    {
+        $alertsTypes = AlertsTypes::orderBy('id', 'asc')->get();
+
+        if (!empty($alertsTypes)) {
+            foreach ($alertsTypes as $index => $alertType) {
+                $alertsTypes[$index]['quantity'] = Alerts::where('alert_type_id', $alertType->id)
+                            ->where('entity_key', "tire")
+                            ->where('entity_id', $entity_id)
+                            ->where('company_id', $company_id)
+                            ->count();
+            }
+        }
+        
+        return response()->json($alertsTypes);
+    }
+    
+    public function getAlertTypeReport($entity_key, $entity_id, $alert_type, $company_id)
+    {
+        switch ($entity_key) {
+            case "vehicle":
+                return $this->getVehicleAlertTypeReport($entity_id, $alert_type, $company_id);
+            case "tire":
+                return $this->getTireAlertTypeReport($entity_id, $alert_type, $company_id);
+        }
+    }
+    
+    private function getVehicleAlertTypeReport($vehicle_id, $alert_type, $company_id)
     {
         $alerts = Alerts::where('alert_type_id', $alert_type)
                             ->where('description', 'like', '%vehicle_id":'.$vehicle_id.'%')
+                            ->where('company_id', $company_id)
+                            ->get();
+
+        return response()->json($alerts);
+    }
+    
+    private function getTireAlertTypeReport($entity_id, $alert_type, $company_id)
+    {
+        $alerts = Alerts::where('alert_type_id', $alert_type)
+                            ->where('entity_key', "tire")
+                            ->where('entity_id', $entity_id)
                             ->where('company_id', $company_id)
                             ->get();
 
