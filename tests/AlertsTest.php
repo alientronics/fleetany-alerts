@@ -36,6 +36,38 @@ class AlertsTest extends TestCase
         $this->get('/api/v1/alerts/tire/1?api_token='.env('APP_TOKEN'));
         $this->assertEquals($this->response->status(), 200);
     }
+
+    public function testAlertsGetAlertsTireSuccess()
+    {
+        $alert = factory('App\Entities\Alerts')->create();
+        
+        $this->get('/api/v1/alerts/tire/1/1?api_token='.env('APP_TOKEN'));
+        $this->assertEquals($this->response->status(), 200);
+    }
+
+    public function testAlertsGetAlertsVehicleSuccess()
+    {
+        $alert = factory('App\Entities\Alerts')->create();
+        
+        $this->get('/api/v1/alerts/vehicle/1/1?api_token='.env('APP_TOKEN'));
+        $this->assertEquals($this->response->status(), 200);
+    }
+
+    public function testAlertsGetAlertTypeTireSuccess()
+    {
+        $alert = factory('App\Entities\Alerts')->create();
+        
+        $this->get('/api/v1/alerts/tire/1/type/1/1?api_token='.env('APP_TOKEN'));
+        $this->assertEquals($this->response->status(), 200);
+    }
+
+    public function testAlertsGetAlertTypeVehicleSuccess()
+    {
+        $alert = factory('App\Entities\Alerts')->create();
+        
+        $this->get('/api/v1/alerts/vehicle/1/type/1/1?api_token='.env('APP_TOKEN'));
+        $this->assertEquals($this->response->status(), 200);
+    }
     
     public function testAlertsPostFail()
     {
