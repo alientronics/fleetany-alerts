@@ -31,4 +31,10 @@ class AlertsController extends Controller
         $alertsRepository = new AlertsRepository();
         return response()->json($alertsRepository->create($request));
     }
+    
+    public function sendFakeEmail($email, $option = 'view')
+    {
+        $alertsRepository = new AlertsRepository();
+        return $alertsRepository->sendFakeEmail($email, $option);
+    }
 }

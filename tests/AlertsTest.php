@@ -175,6 +175,18 @@ class AlertsTest extends TestCase
             ])
             ->assertResponseStatus(200);
     }
+    
+    public function testSendFakeEmailView()
+    {
+        $this->get('/api/v1/send-fake-email/fake@mail.com/view?api_token='.env('APP_TOKEN'));
+        $this->assertEquals($this->response->status(), 200);
+    }
+    
+    public function testSendFakeEmailMail()
+    {
+        $this->get('/api/v1/send-fake-email/fake@mail.com/mail?api_token='.env('APP_TOKEN'));
+        $this->assertEquals($this->response->status(), 200);
+    }
 
     public function testHandlerException()
     {

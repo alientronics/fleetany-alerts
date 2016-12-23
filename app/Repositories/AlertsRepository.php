@@ -127,6 +127,39 @@ class AlertsRepository
         }
     }
     
+    public function sendFakeEmail($email, $option)
+    {
+        try {
+            $alarm = new \stdClass();
+            $alarm->vehicle_fleet = 'vehicle_fleet';
+            $alarm->vehicle_plate = 'vehicle_plate';
+            $alarm->vehicle_driver = 'vehicle_driver';
+            $alarm->tire_number = 'tire_number';
+            $alarm->type = 'type';
+            $alarm->description = 'description';
+            $alarm->vehicle_latitude = 'vehicle_latitude';
+            $alarm->vehicle_longitude = 'vehicle_longitude';
+            $alarm->vehicle_id = 'vehicle_id';
+            $emails[] = $email;
+            
+            if (env('APP_DEBUG')) {
+                if ($option == 'mail') {
+                    Mail::send('mail-alert', ['alarm' => $alarm], function ($m) use ($emails) {
+                        $m->from(env('MAIL_SENDER'), 'fleetany sender');
+                        $m->to($emails)->subject('fleetany-alerts mail test');
+                    });
+
+                    return response()->json(['success' => true]);
+                } else {
+                    return view("mail-alert", compact('alarm'));
+                }
+            }
+        } catch (\Exception $e) {
+            Log::info($e->getMessage());
+            return response()->json(['failed' => $e->getMessage()]);
+        }
+    }
+    
     private function sendMail($company_id)
     {
         $lastAlert = Alerts::where('company_id', $company_id)

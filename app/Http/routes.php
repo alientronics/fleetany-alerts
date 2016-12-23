@@ -25,4 +25,5 @@ $app->group(['prefix' => 'api/v1','namespace' => 'App\Http\Controllers', 'middle
     );
     $app->get('alerts/{entity_key}/{entity_id}', 'AlertsController@get');
     $app->post('alert', 'AlertsController@create');
+    $app->get('send-fake-email/{email}/{option}', 'AlertsController@sendFakeEmail');
 });
